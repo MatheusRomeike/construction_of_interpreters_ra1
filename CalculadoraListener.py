@@ -1,3 +1,4 @@
+#Gabriel Barros, Guilherme Ramos, Matheus Romeike
 # Generated from Calculadora.g4 by ANTLR 4.13.1
 from antlr4 import *
 if "." in __name__:
@@ -7,9 +8,9 @@ else:
 
 # This class defines a complete listener for a parse tree produced by CalculadoraParser.
 class CalculadoraListener(ParseTreeListener):
-    pilha = []
-    pilhaArquivo = []
-    memoria = 0.0
+    stack = []
+    stackFile = []
+    memory = 0.0
 
     def resolve(self, op, a, b):
 
@@ -22,18 +23,22 @@ class CalculadoraListener(ParseTreeListener):
         elif op == '*':
             result = a * b
         elif op == '|':
+            #If the number is negative, it is an invalid operation
             if b == 0:
                 raise Exception("Division by zero")
             result = a / b
         elif op == '/':
+            #If the number is negative, it is an invalid operation
             if b == 0:
                 raise Exception("Division by zero")
             result = a // b
         elif op == '%':
+            #If the number is negative, it is an invalid operation
             if b == 0:
                 raise Exception("Division by zero")
             result = a % b
         elif op == '^':
+            #If the number is negative or not an integer, it is an invalid operation
             if (b < 0 or b != round(b, 0)):
                 raise Exception("Negative or not integer exponentiation")
             result = a ** b
@@ -55,7 +60,7 @@ class CalculadoraListener(ParseTreeListener):
 
     # Exit a parse tree produced by CalculadoraParser#line.
     def exitLine(self, ctx:CalculadoraParser.LineContext):
-        self.pilhaArquivo.append(self.pilha.pop())
+        self.stackFile.append(self.stack.pop())
         pass
 
 
@@ -67,15 +72,17 @@ class CalculadoraListener(ParseTreeListener):
     def exitExpression(self, ctx:CalculadoraParser.ExpressionContext):
         symbol = ctx.SYMBOL()
         number = ctx.NUMBER()
+
+        #If there is a symbol, it is an operation
         if symbol:
             symbol = symbol.getText()
-            b = self.pilha.pop()
-            a = self.pilha.pop()
+            b = self.stack.pop()
+            a = self.stack.pop()
             result = self.resolve(symbol, a, b)
-            self.pilha.append(result)
-
+            self.stack.append(result)
+        #If there is a number, it is a value
         elif number:
-            self.pilha.append(float(number.getText()))
+            self.stack.append(float(number.getText()))
 
         pass
 
@@ -86,12 +93,14 @@ class CalculadoraListener(ParseTreeListener):
 
     # Exit a parse tree produced by CalculadoraParser#res.
     def exitRes(self, ctx:CalculadoraParser.ResContext):
-        index = self.pilha.pop()
+        index = self.stack.pop()
+        #If the index is negative or not an integer, it is an invalid memory access
         if (index < 0 or index != round(index, 0)):
                 raise Exception("Negative or not integer index")
-        if len(self.pilhaArquivo) < int(index):
+        #If the index is greater than the number of elements in the file, it is an invalid memory access
+        if len(self.stackFile) < int(index):
             raise Exception("Invalid memory access")
-        self.pilha.append(self.pilhaArquivo[int(index) - 1])
+        self.stack.append(self.stackFile[int(index) - 1])
         pass
 
 
@@ -107,9 +116,9 @@ class CalculadoraListener(ParseTreeListener):
             expression = None
 
         if expression:
-            self.memoria = float(self.pilha.pop())
+            self.memory = float(self.stack.pop())
 
-        self.pilha.append(self.memoria)
+        self.stack.append(self.memory)
         pass
 
 
