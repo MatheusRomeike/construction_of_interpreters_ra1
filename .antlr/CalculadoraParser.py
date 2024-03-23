@@ -48,11 +48,11 @@ class CalculadoraParser ( Parser ):
 
     RULE_start = 0
     RULE_line = 1
-    RULE_number = 2
+    RULE_expression = 2
     RULE_res = 3
     RULE_mem = 4
 
-    ruleNames =  [ "start", "line", "number", "res", "mem" ]
+    ruleNames =  [ "start", "line", "expression", "res", "mem" ]
 
     EOF = Token.EOF
     T__0=1
@@ -144,8 +144,8 @@ class CalculadoraParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def number(self):
-            return self.getTypedRuleContext(CalculadoraParser.NumberContext,0)
+        def expression(self):
+            return self.getTypedRuleContext(CalculadoraParser.ExpressionContext,0)
 
 
         def getRuleIndex(self):
@@ -161,7 +161,7 @@ class CalculadoraParser ( Parser ):
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 18
-            self.number()
+            self.expression()
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -171,7 +171,7 @@ class CalculadoraParser ( Parser ):
         return localctx
 
 
-    class NumberContext(ParserRuleContext):
+    class ExpressionContext(ParserRuleContext):
         __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -181,11 +181,11 @@ class CalculadoraParser ( Parser ):
         def NUMBER(self):
             return self.getToken(CalculadoraParser.NUMBER, 0)
 
-        def number(self, i:int=None):
+        def expression(self, i:int=None):
             if i is None:
-                return self.getTypedRuleContexts(CalculadoraParser.NumberContext)
+                return self.getTypedRuleContexts(CalculadoraParser.ExpressionContext)
             else:
-                return self.getTypedRuleContext(CalculadoraParser.NumberContext,i)
+                return self.getTypedRuleContext(CalculadoraParser.ExpressionContext,i)
 
 
         def SYMBOL(self):
@@ -200,15 +200,15 @@ class CalculadoraParser ( Parser ):
 
 
         def getRuleIndex(self):
-            return CalculadoraParser.RULE_number
+            return CalculadoraParser.RULE_expression
 
 
 
 
-    def number(self):
+    def expression(self):
 
-        localctx = CalculadoraParser.NumberContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 4, self.RULE_number)
+        localctx = CalculadoraParser.ExpressionContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 4, self.RULE_expression)
         try:
             self.state = 29
             self._errHandler.sync(self)
@@ -224,9 +224,9 @@ class CalculadoraParser ( Parser ):
                 self.state = 21
                 self.match(CalculadoraParser.T__0)
                 self.state = 22
-                self.number()
+                self.expression()
                 self.state = 23
-                self.number()
+                self.expression()
                 self.state = 24
                 self.match(CalculadoraParser.SYMBOL)
                 self.state = 25
@@ -262,8 +262,8 @@ class CalculadoraParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def number(self):
-            return self.getTypedRuleContext(CalculadoraParser.NumberContext,0)
+        def expression(self):
+            return self.getTypedRuleContext(CalculadoraParser.ExpressionContext,0)
 
 
         def RES(self):
@@ -284,7 +284,7 @@ class CalculadoraParser ( Parser ):
             self.state = 31
             self.match(CalculadoraParser.T__0)
             self.state = 32
-            self.number()
+            self.expression()
             self.state = 33
             self.match(CalculadoraParser.RES)
             self.state = 34
@@ -305,8 +305,8 @@ class CalculadoraParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def number(self):
-            return self.getTypedRuleContext(CalculadoraParser.NumberContext,0)
+        def expression(self):
+            return self.getTypedRuleContext(CalculadoraParser.ExpressionContext,0)
 
 
         def MEM(self):
@@ -331,7 +331,7 @@ class CalculadoraParser ( Parser ):
                 self.state = 36
                 self.match(CalculadoraParser.T__0)
                 self.state = 37
-                self.number()
+                self.expression()
                 self.state = 38
                 self.match(CalculadoraParser.MEM)
                 self.state = 39

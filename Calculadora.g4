@@ -2,12 +2,12 @@ grammar Calculadora;
 
 start: line (ENTER line)*;
 
-line: number;
+line: expression;
 
-number: NUMBER | '(' number number SYMBOL ')' | res | mem;
+expression: NUMBER | '(' expression expression SYMBOL ')' | res | mem;
 
-res: '(' number 'RES' ')';
-mem: '(' number MEM ')' | MEM | '(' MEM ')';
+res: '(' expression 'RES' ')';
+mem: '(' expression MEM ')' | MEM | '(' MEM ')';
 
 SYMBOL: SUM | SUBTRACTION | MULTIPLY | DIVISION | INTEGER_DIVISION | MODULO | POTENTIATION;
 SUM: '+';

@@ -46,8 +46,6 @@ class CalculadoraListener(ParseTreeListener):
 
     # Exit a parse tree produced by CalculadoraParser#start.
     def exitStart(self, ctx:CalculadoraParser.StartContext):
-        print(self.pilhaArquivo)
-        
         pass
 
 
@@ -61,12 +59,12 @@ class CalculadoraListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by CalculadoraParser#number.
-    def enterNumber(self, ctx:CalculadoraParser.NumberContext):
+    # Enter a parse tree produced by CalculadoraParser#expression.
+    def enterExpression(self, ctx:CalculadoraParser.ExpressionContext):
         pass
 
-    # Exit a parse tree produced by CalculadoraParser#number.
-    def exitNumber(self, ctx:CalculadoraParser.NumberContext):
+    # Exit a parse tree produced by CalculadoraParser#expression.
+    def exitExpression(self, ctx:CalculadoraParser.ExpressionContext):
         symbol = ctx.SYMBOL()
         number = ctx.NUMBER()
         if symbol:
@@ -104,11 +102,11 @@ class CalculadoraListener(ParseTreeListener):
     # Exit a parse tree produced by CalculadoraParser#mem.
     def exitMem(self, ctx:CalculadoraParser.MemContext):
         try:
-            number = ctx.number().getText()
+            expression = ctx.expression().getText()
         except:
-            number = None
+            expression = None
 
-        if number:
+        if expression:
             self.memoria = float(self.pilha.pop())
 
         self.pilha.append(self.memoria)
