@@ -25,22 +25,22 @@ class CalculadoraListener(ParseTreeListener):
         elif op == '|':
             #If the number is negative, it is an invalid operation
             if b == 0:
-                raise Exception("Division by zero")
+                raise Exception("Syntax error: Division by zero")
             result = a / b
         elif op == '/':
             #If the number is negative, it is an invalid operation
             if b == 0:
-                raise Exception("Division by zero")
+                raise Exception("Syntax error: Division by zero")
             result = a // b
         elif op == '%':
             #If the number is negative, it is an invalid operation
             if b == 0:
-                raise Exception("Division by zero")
+                raise Exception("Syntax error: Division by zero")
             result = a % b
         elif op == '^':
             #If the number is negative or not an integer, it is an invalid operation
             if (b < 0 or b != round(b, 0)):
-                raise Exception("Negative or not integer exponentiation")
+                raise Exception("Syntax error: Negative or not integer exponentiation")
             result = a ** b
 
         return round(result, 2)
@@ -96,10 +96,10 @@ class CalculadoraListener(ParseTreeListener):
         index = self.stack.pop()
         #If the index is negative or not an integer, it is an invalid memory access
         if (index < 0 or index != round(index, 0)):
-                raise Exception("Negative or not integer index")
+                raise Exception("Syntax error: Negative or not integer index")
         #If the index is greater than the number of elements in the file, it is an invalid memory access
         if len(self.stackFile) < int(index):
-            raise Exception("Invalid memory access")
+            raise Exception("Syntax error: Invalid memory access")
         self.stack.append(self.stackFile[int(index) - 1])
         pass
 
